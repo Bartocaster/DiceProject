@@ -11,11 +11,19 @@ class RollDiceController extends AbstractController
     #[Route('/dice', name: 'rollDice')]
     public function index(): Response
     {
-        $diceNumber = rand(1,6);
+        // $diceNumber = rand(1,6);
+        function rollDice(){
+            $diceNumber = rand(1,6); 
+
+            return $diceNumber;
+        }
+
+        $rollDice = rollDice();
 
         return $this->render('roll_dice/index.html.twig', [
             'controller_name' => 'RollDiceController',
-            'dice' => $diceNumber,
+            'dice' => $rollDice,
         ]);
     }
+
 }
