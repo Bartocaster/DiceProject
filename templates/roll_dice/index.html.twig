@@ -10,9 +10,16 @@
 
 <div class="example-wrapper">
  <h1> Dice Rolls </h1>
+
+<div data-controller="counter"></div>
+
+<div {{ stimulus_controller('counter') }}>
  <button class="btn btn-primary btn-sm">
     Click me
 </button>
+
+</div>
+
  <h2> Your roll = {{ dice }}</h2>
  
 </div>
