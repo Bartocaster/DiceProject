@@ -14,11 +14,12 @@ class RollDiceController extends AbstractController
         // $diceNumber = rand(1,6);
         function rollDice(){
             $diceNumber = rand(1,6); 
-
+    
             return $diceNumber;
         }
 
         $rollDice = rollDice();
+        
 
         return $this->render('roll_dice/index.html.twig', [
             'controller_name' => 'RollDiceController',
@@ -26,4 +27,5 @@ class RollDiceController extends AbstractController
         ]);
     }
 
+   
 }
