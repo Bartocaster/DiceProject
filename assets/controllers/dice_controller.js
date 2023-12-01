@@ -5,12 +5,12 @@ import { Controller } from '@hotwired/stimulus';
  *
  * Any element with a data-controller="hello" attribute will cause
  * this controller to be executed. The name "hello" comes from the filename:
- * hello_controller.js -> "hello"
+ * hello_controller.js -> "dice"
  *
  * Delete this file or adapt it for your use!
  */
 export default class extends Controller {
     connect() {
-        this.element.innerHTML = 'You have rolled the Dice';
+        this.element.textContent = 'You have rolled the Dice';
     }
 }
