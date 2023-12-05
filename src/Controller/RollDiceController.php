@@ -19,12 +19,11 @@ class RollDiceController extends AbstractController
         }
 
         $rollDice = rollDice();
-        $coolname = "or DND group is awesome";
+        
 
         return $this->render('roll_dice/index.html.twig', [
             'controller_name' => 'RollDiceController',
             'dice' => $rollDice,
-            'coolname' => $coolname,
         ]);
     }
 
