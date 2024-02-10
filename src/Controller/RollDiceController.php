@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class RollDiceController extends AbstractController
 {
-    #[Route('/dice', name: 'rollDice')]
+    #[Route('/D6', name: 'roll_dice_D6')]
     public function index(): Response
     {
         // $diceNumber = rand(1,6);
@@ -26,6 +26,8 @@ class RollDiceController extends AbstractController
             'dice' => $rollDice,
         ]);
     }
+
+    
 
    
 }
