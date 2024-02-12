@@ -20,29 +20,35 @@
     </button>
 
 </div>
+    <label for="numDice">Number of Dice:</label>
+    <input type="number" id="numDice" name="numDice" value="1" min="1">
+    <br>
     <button id="rollButton" class="btn btn-primary btn-sm">
-        Roll me!
+        Roll me! 
     </button>
-    <h2 id="ReRollDice" >Your roll = {{ dice }}</h2>
+
+    <h2 id="ReRollDice">Your roll = {{ dice }}</h2>
+
 </div>
 
 <script>
     document.getElementById('rollButton').addEventListener('click', function() {
-        fetch('{{ path('roll_dice_D6') }}')
-            .then(response => response.json())
-            .then(data => {
-                // Check if the 'dice' property exists in the data
-                if (data && data.dice !== undefined) {
-                    document.getElementById('ReRollDice').innerText = 'Your roll = ' + data.dice;
-                } else {
-                    console.error('Invalid response format or missing dice property');
-                }
-            })
-            .catch(error => {
-                console.error('Error fetching data:', error);
-            });
-
+    var numDice = document.getElementById('numDice').value; // Get the number of dice from the input field
+    $.ajax({
+        url: '{{ path('roll_dice_D6') }}',
+        method: 'GET',
+        data: { numDice: numDice }, // Pass the number of dice as a query parameter
+        success: function(response) {
+            // Update the content of the <h2> element with the new dice roll
+            console.log(response);
+            document.getElementById('ReRollDice').innerText = response;
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
+        }
     });
+});
+
 </script>
 
 {% endblock %}
