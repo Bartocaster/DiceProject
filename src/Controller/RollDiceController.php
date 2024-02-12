@@ -17,7 +17,7 @@ class RollDiceController extends AbstractController
             'dice' => $D6,
         ]);
     }
-    
+
     #[Route('/D8', name: 'roll_dice_D8')]
     public function rollD8(): Response
     {

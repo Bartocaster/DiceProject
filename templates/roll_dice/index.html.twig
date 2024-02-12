@@ -12,19 +12,37 @@
  <h1> {{ controller_name }}</h1>
   
 <div {{ stimulus_controller('dice') }}>
-    You Rolled 
+    select Amount of dice
     <span class="dice-counter">0</span>
-    on your dice!
+    to roll.
     <button class="btn btn-primary btn-sm">
-        Click me
+        Dice.
     </button>
-</div>
-<button class="btn btn-primary btn-sm">
-        Click me
-</button>
 
-
- <h2> Your roll = {{ dice }}</h2>
-    
 </div>
+    <button id="rollButton" class="btn btn-primary btn-sm">
+        Roll me!
+    </button>
+    <h2 id="ReRollDice" >Your roll = {{ dice }}</h2>
+</div>
+
+<script>
+    document.getElementById('rollButton').addEventListener('click', function() {
+        fetch('{{ path('roll_dice_D6') }}')
+            .then(response => response.json())
+            .then(data => {
+                // Check if the 'dice' property exists in the data
+                if (data && data.dice !== undefined) {
+                    document.getElementById('ReRollDice').innerText = 'Your roll = ' + data.dice;
+                } else {
+                    console.error('Invalid response format or missing dice property');
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+
+    });
+</script>
+
 {% endblock %}
