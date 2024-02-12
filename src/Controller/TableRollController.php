@@ -17,10 +17,4 @@ class TableRollController extends AbstractController
             'controller_name' => 'TableRollController',
         ]);
     }
-    #[Route('/D4', name: 'roll_dice_D4')]
-    public function rollD4(Request $request): Response
-    {
-        $D4 = rand(1, 4);
-        return new JsonResponse(['dice' => $D4]);
-    }
 }

@@ -27,7 +27,7 @@
         Roll me! 
     </button>
 
-    <h2 id="ReRollDice">Your roll = {{ dice }}</h2>
+    <h2 id="ReRollDice">Roll your dice!{{ dice }}</h2>
 
 </div>
 
@@ -41,7 +41,7 @@
         success: function(response) {
             // Update the content of the <h2> element with the new dice roll
             console.log(response);
-            document.getElementById('ReRollDice').innerText = response;
+            document.getElementById('ReRollDice').innerText = 'Your roll = ' + response;
         },
         error: function(xhr, status, error) {
             console.error(error);

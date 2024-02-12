@@ -10,20 +10,26 @@
 
 <div class="example-wrapper">
     <h1>{{ controller_name }}</h1>
-       <button id="rollButton" class="btn btn-primary btn-sm">
+    <label for="amountOfDice">Number of Dice:</label>
+    <input type="number" id="amountOfDice" name="amountOfDice" value="1" min="1">
+    <br>
+    <button id="rollButton" class="btn btn-primary btn-sm">
         Roll me! 
     </button>
 
-    <h2 id="ReRollDice">Your roll = </h2>
+    <h2 id="ReRollDice">Roll your dice!</h2>
 </div>
 <script>
     document.getElementById('rollButton').addEventListener('click', function() {
+    var amountOfDice = document.getElementById('amountOfDice').value; // Get the number of dice from the input field
     $.ajax({
-        url: '{{ path('roll_dice_D4') }}',
+        url: '{{ path('roll_dice_D8') }}',
         method: 'GET',
+        data: { amountOfDice: amountOfDice }, // Pass the number of dice as a query parameter
         success: function(response) {
+            // Update the content of the <h2> element with the new dice roll
             console.log(response);
-            document.getElementById('ReRollDice').innerText = response.dice;
+            document.getElementById('ReRollDice').innerText = 'Your roll = ' + response.dice;
         },
         error: function(xhr, status, error) {
             console.error(error);

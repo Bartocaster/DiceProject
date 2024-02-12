@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class RollDiceController extends AbstractController
 {
@@ -18,9 +19,9 @@ class RollDiceController extends AbstractController
     #[Route('/D6', name: 'roll_dice_D6')]
     public function rollD6(Request $request): Response
     {
-        $numDice = $request->query->getInt('numDice', 1);
+        $amountOfDice = $request->query->getInt('amountOfDice', 1);
         $diceResults = [];
-        for ($i = 0; $i < $numDice; $i++) {
+        for ($i = 0; $i < $amountOfDice; $i++) {
             $diceResults[] = rand(1, 6);
         }
         $dice = implode(', ', $diceResults); // Combine the dice results into a string
@@ -28,19 +29,23 @@ class RollDiceController extends AbstractController
         return $this->render('roll_dice/index.html.twig', [
             'controller_name' => '6 SideDice',
             'dice' => $dice,
-            'numDice' => $numDice, // Pass numDice to the template
+            'amountOfDice' => $amountOfDice, // Pass numDice to the template
         ]);
     }
 
     
     #[Route('/D8', name: 'roll_dice_D8')]
-    public function rollD8(): Response
+    public function rollD8(Request $request): Response
     {
-        $D8 = rand(1, 8);
-        return $this->render('roll_dice/index.html.twig', [
-            'controller_name' => '8 SideDice',
-            'dice' => $D8,
-        ]);
+        $amountOfDice = $request->query->getInt('amountOfDice', 1);
+        
+        $diceResults = [];
+        for ($i = 0; $i < $amountOfDice; $i++) {
+            $diceResults[] = rand(1, 8);
+        }
+        $dice = implode(', ', $diceResults); // Combine the dice results into a string
+        // $D8 = rand(1, 8);
+        return new JsonResponse(['dice' => $dice]);
     }
     
     #[Route('/D20', name: 'roll_dice_D20')]
