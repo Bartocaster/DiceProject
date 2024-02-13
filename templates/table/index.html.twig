@@ -10,6 +10,17 @@
 
 <div class="example-wrapper">
     <h1>{{ controller_name }}</h1>
+    <div class="example-wrapper">
+        <h1>Number of Dice: <span id="numDice">0</span></h1>
+        <button class="btn btn-primary btn-sm" onclick="incrementNumDice(4)">D4</button>
+        <button class="btn btn-primary btn-sm" onclick="incrementNumDice(6)">D6</button>
+        <button class="btn btn-primary btn-sm" onclick="incrementNumDice(8)">D8</button>
+        <button class="btn btn-primary btn-sm" onclick="incrementNumDice(10)">D10</button>
+        <button class="btn btn-primary btn-sm" onclick="incrementNumDice(12)">D12</button>
+        <button class="btn btn-primary btn-sm" onclick="incrementNumDice(20)">D20</button>
+        <button class="btn btn-primary btn-sm" onclick="incrementNumDice(100)">D100</button>
+    </div>
+
     <label for="amountOfDice">Number of Dice:</label>
     <input type="number" id="amountOfDice" name="amountOfDice" value="1" min="1">
     <br>
@@ -20,6 +31,14 @@
     <h2 id="ReRollDice">Roll your dice!</h2>
 </div>
 <script>
+    function incrementNumDice(increment) {
+        var numDiceElement = document.getElementById('numDice');
+        var currentNumDice = parseInt(numDiceElement.innerText);
+        var newNumDice = currentNumDice + increment;
+        numDiceElement.innerText = newNumDice;
+    }
+</script>
+<script>
     document.getElementById('rollButton').addEventListener('click', function() {
     var amountOfDice = document.getElementById('amountOfDice').value; // Get the number of dice from the input field
     $.ajax({
@@ -28,7 +47,7 @@
         data: { amountOfDice: amountOfDice }, // Pass the number of dice as a query parameter
         success: function(response) {
             // Update the content of the <h2> element with the new dice roll
-            console.log(response);
+            console.log(response); 
             document.getElementById('ReRollDice').innerText = 'Your roll = ' + response.dice;
         },
         error: function(xhr, status, error) {

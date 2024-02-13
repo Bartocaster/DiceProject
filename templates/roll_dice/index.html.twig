@@ -41,8 +41,6 @@
         success: function(response) {
             // Update the content of the <h2> element with the new dice roll
             console.log(response);
-            console.log(response.dice);
-            console.log(response.test);
             document.getElementById('ReRollDice').innerText = 'Your roll = ' + response;
         },
         error: function(xhr, status, error) {

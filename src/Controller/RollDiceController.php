@@ -38,7 +38,6 @@ class RollDiceController extends AbstractController
     public function rollD8(Request $request): Response
     {
         $amountOfDice = $request->query->getInt('amountOfDice', 1);
-        
         $diceResults = [];
         $total = 0; 
         
@@ -47,12 +46,22 @@ class RollDiceController extends AbstractController
             $diceResults[] = $result;
             $total += $result;
         }
-        $dice = implode(', + ', $diceResults); // Combine the dice results into a string
-        // not sure wy i cannot add 2 vaulue in the JsonResponse having them combined soves the issue
+        
+        $dice = implode(' + ', $diceResults); // Combine the dice results into a string
+        // not sure wy I cannot add 2 vaulue in the JsonResponse having them combined soves the issue
         $combine = $dice . ' = ' . $total;
-        return new JsonResponse([
-            'dice' => $combine,
-        ]);
+        if (count($diceResults) === 1 ) {
+            return new JsonResponse([
+                'dice' => $dice,
+            ]);
+        } else {  
+            return new JsonResponse([
+                'dice' => $combine,
+                'test' => $diceResults,
+    
+            ]);
+        }
+
     }
     
     #[Route('/D20', name: 'roll_dice_D20')]
