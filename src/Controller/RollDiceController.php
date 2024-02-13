@@ -38,6 +38,8 @@ class RollDiceController extends AbstractController
     public function rollD8(Request $request): Response
     {
         $amountOfDice = $request->query->getInt('amountOfDice', 1);
+        // $numDiceElement = $request->query->getInt('numDiceElement', 1);
+        // print_r($numDiceElement);
         $diceResults = [];
         $total = 0; 
         
@@ -48,7 +50,7 @@ class RollDiceController extends AbstractController
         }
         
         $dice = implode(' + ', $diceResults); // Combine the dice results into a string
-        // not sure wy I cannot add 2 vaulue in the JsonResponse having them combined soves the issue
+        // not sure wy I cannot add 2 vaulue in the JsonResponse having them combined soves the issue of sending with ajax.
         $combine = $dice . ' = ' . $total;
         if (count($diceResults) === 1 ) {
             return new JsonResponse([
@@ -58,7 +60,7 @@ class RollDiceController extends AbstractController
             return new JsonResponse([
                 'dice' => $combine,
                 'test' => $diceResults,
-    
+
             ]);
         }
 

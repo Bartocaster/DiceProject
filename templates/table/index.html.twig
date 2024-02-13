@@ -11,13 +11,21 @@
 <div class="example-wrapper">
     <h1>{{ controller_name }}</h1>
     <div class="example-wrapper">
-        <h1>Number of Dice: <span id="numDice">0</span></h1>
+        <a>D4 clicked: <span id="D4Count">0</span></a>
         <button id="D4" class="btn btn-primary btn-sm" onclick="incrementNumDice('D4')">D4</button>
+        <a>D6 clicked: <span id="D6Count">0</span></a>
         <button id="D6" class="btn btn-primary btn-sm" onclick="incrementNumDice('D6')">D6</button>
+        <a>D8 clicked: <span id="D8Count">0</span></a>
         <button id="D8" class="btn btn-primary btn-sm" onclick="incrementNumDice('D8')">D8</button>
+        <br>
+        <a>D10 clicked: <span id="D10Count">0</span></a>
         <button id="D10" class="btn btn-primary btn-sm" onclick="incrementNumDice('D10')">D10</button>
+        <a>D12 clicked: <span id="D12Count">0</span></a>
         <button id="D12" class="btn btn-primary btn-sm" onclick="incrementNumDice('D12')">D12</button>
+        <a>D20 clicked: <span id="D20Count">0</span></a>
         <button id="D20" class="btn btn-primary btn-sm" onclick="incrementNumDice('D20')">D20</button>
+        <br>
+        <a>D100 clicked: <span id="D100Count">0</span></a>
         <button id="D100" class="btn btn-primary btn-sm" onclick="incrementNumDice('D100')">D100</button>
     </div>
 
@@ -33,25 +41,22 @@
 <script>
     function incrementNumDice(buttonId) {
         var button = document.getElementById(buttonId);
-        var count = parseInt(button.getAttribute('data-count')) || 1;
-        console.log(count);
+        var count = parseInt(button.getAttribute('data-count')) || 0;
         count++;
         button.setAttribute('data-count', count);
-        var numDiceElement = document.getElementById('numDice');
-        console.log(buttonId);
-        var currentNumDice = parseInt(numDiceElement.innerText);
-        var newNumDice = currentNumDice + 1;
-        numDiceElement.innerText = newNumDice;
+        
+        var spanId = buttonId + 'Count';
+        var spanElement = document.getElementById(spanId);
+        spanElement.innerText = count;
     }
-</script>
 
-<script>
+    // check vue for symfony.
     document.getElementById('rollButton').addEventListener('click', function() {
     var amountOfDice = document.getElementById('amountOfDice').value; // Get the number of dice from the input field
     $.ajax({
         url: '{{ path('roll_dice_D8') }}',
         method: 'GET',
-        data: { amountOfDice: amountOfDice }, // Pass the number of dice as a query parameter
+        data: { amountOfDice: amountOfDice, }, // Pass the number of dice as a query parameter
         success: function(response) {
             // Update the content of the <h2> element with the new dice roll
             console.log(response); 
