@@ -9,42 +9,19 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class RollDiceController extends AbstractController
-{
-    #[Route('/D4', name: 'roll_dice_D4')]
-    public function rollD4(Request $request): Response
-    {
-        $D4 = rand(1, 4);
-        return new JsonResponse(['dice' => $D4]);
-    }
-    #[Route('/D6', name: 'roll_dice_D6')]
-    public function rollD6(Request $request): Response
+{  
+    #[Route('/Dice', name: 'roll_dice')]
+    public function rollDice(Request $request): Response
     {
         $amountOfDice = $request->query->getInt('amountOfDice', 1);
-        $diceResults = [];
-        for ($i = 0; $i < $amountOfDice; $i++) {
-            $diceResults[] = rand(1, 6);
-        }
-        $dice = implode(', ', $diceResults); // Combine the dice results into a string
-    
-        return $this->render('roll_dice/index.html.twig', [
-            'controller_name' => '6 SideDice',
-            'dice' => $dice,
-            'amountOfDice' => $amountOfDice, // Pass numDice to the template
-        ]);
-    }
+        $countsJson = $request->query->get('counts');
+        $dNumDice = json_decode($countsJson, true);
 
-    
-    #[Route('/D8', name: 'roll_dice_D8')]
-    public function rollD8(Request $request): Response
-    {
-        $amountOfDice = $request->query->getInt('amountOfDice', 1);
-        // $numDiceElement = $request->query->getInt('numDiceElement', 1);
-        // print_r($numDiceElement);
         $diceResults = [];
         $total = 0; 
         
         for ($i = 0; $i < $amountOfDice; $i++) {
-            $result = rand(1, 8);
+            $result = rand(1, 8); // results are imported.
             $diceResults[] = $result;
             $total += $result;
         }
@@ -55,17 +32,27 @@ class RollDiceController extends AbstractController
         if (count($diceResults) === 1 ) {
             return new JsonResponse([
                 'dice' => $dice,
+                'choseDice' => $dNumDice,
             ]);
         } else {  
             return new JsonResponse([
                 'dice' => $combine,
-                'test' => $diceResults,
-
+                'results' => $diceResults,
+                'choseDice' => $dNumDice,
             ]);
         }
 
     }
     
+    #[Route('/D26', name: 'roll_dice_D6')]
+    public function rollD6(): Response
+    {
+        $D6 = rand(1, 6);
+        return $this->render('roll_dice/index.html.twig', [
+            'controller_name' => '6 SideDice',
+            'dice' => $D6,
+        ]);
+    }
     #[Route('/D20', name: 'roll_dice_D20')]
     public function rollD20(): Response
     {
@@ -75,21 +62,5 @@ class RollDiceController extends AbstractController
             'dice' => $D20,
         ]);
     }
-    public function index2(): Response
-    {
-        // $diceNumber = rand(1,6);
-        function rollDice(){
-            $diceNumber = rand(1,6); 
     
-            return $diceNumber;
-        }
-
-        $rollDice = rollDice();
-        
-
-        return $this->render('roll_dice/index.html.twig', [
-            'controller_name' => 'RollDiceController',
-            'dice' => $rollDice,
-        ]);
-    } 
 }

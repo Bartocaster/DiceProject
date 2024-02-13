@@ -44,19 +44,32 @@
         var count = parseInt(button.getAttribute('data-count')) || 0;
         count++;
         button.setAttribute('data-count', count);
-        
+        //console.log(count);
         var spanId = buttonId + 'Count';
+       // console.log(spanId);
         var spanElement = document.getElementById(spanId);
         spanElement.innerText = count;
+        //console.log(spanElement);
     }
 
     // check vue for symfony.
     document.getElementById('rollButton').addEventListener('click', function() {
     var amountOfDice = document.getElementById('amountOfDice').value; // Get the number of dice from the input field
+    var counts = {};
+       var buttons = document.querySelectorAll('.btn');
+    buttons.forEach(function(button) {
+        var buttonId = button.id;
+        var count = parseInt(button.getAttribute('data-count')) || 0;
+        counts[buttonId] = count;
+    });
+
     $.ajax({
-        url: '{{ path('roll_dice_D8') }}',
+        url: '{{ path('roll_dice') }}',
         method: 'GET',
-        data: { amountOfDice: amountOfDice, }, // Pass the number of dice as a query parameter
+        data: { 
+            amountOfDice: amountOfDice,
+            counts: JSON.stringify(counts) 
+                }, // Pass the number of dice as a query parameter
         success: function(response) {
             // Update the content of the <h2> element with the new dice roll
             console.log(response); 
