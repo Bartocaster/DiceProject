@@ -29,9 +29,9 @@
         <button id="D100" class="btn btn-primary btn-sm" onclick="incrementNumDice('D100')">D100</button>
     </div>
 
-    <label for="amountOfDice">Number of Dice:</label>
+    {# <label for="amountOfDice">Number of Dice:</label>
     <input type="number" id="amountOfDice" name="amountOfDice" value="1" min="1">
-    <br>
+    <br> #}
     <button id="rollButton" class="btn btn-primary btn-sm">
         Roll me! 
     </button>
@@ -44,36 +44,44 @@
         var count = parseInt(button.getAttribute('data-count')) || 0;
         count++;
         button.setAttribute('data-count', count);
-        //console.log(count);
         var spanId = buttonId + 'Count';
-       // console.log(spanId);
         var spanElement = document.getElementById(spanId);
         spanElement.innerText = count;
-        //console.log(spanElement);
+
     }
 
+    
     // check vue for symfony.
     document.getElementById('rollButton').addEventListener('click', function() {
-    var amountOfDice = document.getElementById('amountOfDice').value; // Get the number of dice from the input field
-    var counts = {};
+    // var amountOfDice = document.getElementById('amountOfDice').value; // Get the number of dice from the input field
+       var counts = {};
        var buttons = document.querySelectorAll('.btn');
     buttons.forEach(function(button) {
         var buttonId = button.id;
         var count = parseInt(button.getAttribute('data-count')) || 0;
         counts[buttonId] = count;
+
+                // Reset count to 0
+        if (buttonId !== 'rollButton') {
+            button.setAttribute('data-count', 0);
+            var spanId = buttonId + 'Count';
+            var spanElement = document.getElementById(spanId);
+            spanElement.innerText = 0;
+        }
     });
+  
 
     $.ajax({
         url: '{{ path('roll_dice') }}',
         method: 'GET',
         data: { 
-            amountOfDice: amountOfDice,
+            // amountOfDice: amountOfDice,
             counts: JSON.stringify(counts) 
                 }, // Pass the number of dice as a query parameter
         success: function(response) {
             // Update the content of the <h2> element with the new dice roll
             console.log(response); 
-            document.getElementById('ReRollDice').innerText = 'Your roll = ' + response.dice;
+            document.getElementById('ReRollDice').innerText = 'You rolled = ' + response.dice;
         },
         error: function(xhr, status, error) {
             console.error(error);
