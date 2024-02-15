@@ -23,29 +23,28 @@ class RollDiceController extends AbstractController
 
         $ranNumDiceGen = $this->randNumDiceGenerator($dNumDice);
         $diceResults = $ranNumDiceGen['diceResults'];
-        $total = $ranNumDiceGen['total'];
+        $total = $ranNumDiceGen['total']; 
+        $individualRolls = $ranNumDiceGen['individualRolls'];
 
-        // for ($i = 0; $i < $amountOfDice; $i++) {
-        //     $result = rand(1, 8); // results are imported.
-        //     $diceResults[] = $result;
-        //     $total += $result;
-        // }
-        // $dice = implode(' + ', $diceResults); // Combine the dice results into a string
+        $noDice = "No dice. You gotte choose them.";
         $dice = implode(' + ', $diceResults); // Combine the dice results into a string
-        // not sure wy I cannot add 2 vaulue in the JsonResponse having them combined soves the issue of sending with ajax.
-        // $combine = $dice . ' = ' . $ranNumDiceGen['total'];
-
-        $combine = $dice . ' = ' . $total;
+        $combine = $individualRolls . ' total = ' . $total;
         if (count($diceResults) === 1 ) {
             return new JsonResponse([
-                'dice' => $dice,
+                'dice' => $individualRolls,
                 'choseDice' => $dNumDice,
+                // 'typeOfDice' => $individualRolls,
             ]);
-        } else {  
+        } elseif (count($diceResults) === 0 ) {
+            return new JsonResponse([
+                'dice' => $noDice,
+            ]);
+        } else {   
             return new JsonResponse([
                 'dice' => $combine,
                 // 'results' => $diceResults,
-                'choseDice' => $dNumDice,
+                // 'choseDice' => $dNumDice,
+                'typeOfDice' => $individualRolls,
             ]);
         }
 
@@ -53,50 +52,61 @@ class RollDiceController extends AbstractController
 
     public function randNumDiceGenerator($dNumDice)
     {
-    $diceResults = [];
-    $total = 0;
-
-    // Iterate over each die type in the $dNumDice array
-    foreach ($dNumDice as $dieType => $count) {
-        // Roll the die $count times and add the results to $diceResults
-        for ($i = 0; $i < $count; $i++) {
-            switch ($dieType) {
-                case 'D4':
-                    $result = rand(1, 4);
-                    break;
-                case 'D6':
-                    $result = rand(1, 6);
-                    break;
-                case 'D8':
-                    $result = rand(1, 8);
-                    break;
-                case 'D10':
-                    $result = rand(1, 10);
-                    break;
-                case 'D12':
-                    $result = rand(1, 12);
-                    break;
-                case 'D20':
-                    $result = rand(1, 20);
-                    break;
-                case 'D100':
-                    $result = rand(1, 100);
-                    break;
-                default:
-                    $result = 0; // Invalid die type
+        $diceResults = [];
+        $total = 0;
+        $individualRolls = [];
+    
+        // Iterate over each dice type in the $dNumDice array
+        foreach ($dNumDice as $diceType => $count) {
+            // Skip dice types with a count of 0
+            if ($count <= 0) {
+                continue;
             }
-            // Add the result to the total and store it in $diceResults
-            $total += $result;
-            $diceResults[] = $result;
+            $diceTotal = 0;
+            $diceRolls = [];
+            // Roll the dice $count times and add the results to $diceResults
+            for ($i = 0; $i < $count; $i++) {
+                // Generate a random number based on the dice type
+                switch ($diceType) {
+                    case 'D4':
+                        $result = rand(1, 4);
+                        break;
+                    case 'D6':
+                        $result = rand(1, 6);
+                        break;
+                    case 'D8':
+                        $result = rand(1, 8);
+                        break;
+                    case 'D10':
+                        $result = rand(1, 10);
+                        break;
+                    case 'D12':
+                        $result = rand(1, 12);
+                        break;
+                    case 'D20':
+                        $result = rand(1, 20);
+                        break;
+                    case 'D100':
+                        $result = rand(1, 100);
+                        break;
+                    default:
+                        $result = 0; // Invalid die type
+                }
+                // Add the result to the total and store it in $diceResults
+                $total += $result;
+                $diceResults[] = $result;
+                $diceTotal += $result;
+                $diceRolls[] = $result;
+            }
+            $individualRolls[] = "$count$diceType (" . implode(' + ', $diceRolls) . " = $diceTotal)";
         }
+    
+        // Return an array containing the individual dice rolls and the total
+        return ['diceResults' => $diceResults, 'total' => $total, 'individualRolls' => implode(' + ', $individualRolls)];
     }
 
-    // Return an array containing the individual dice rolls and the total
-    return ['diceResults' => $diceResults, 'total' => $total];
-}
 
-
-    #[Route('/D26', name: 'roll_dice_D6')]
+    #[Route('/D6', name: 'roll_dice_D6')]
     public function rollD6(): Response
     {
         $D6 = rand(1, 6);
