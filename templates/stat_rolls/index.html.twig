@@ -27,7 +27,7 @@ function incrementNumDice(numDice) {
     counts['D6'] = numDice;
 
     $.ajax({
-        url: '{{ path('roll_dice') }}',
+        url: '{{ path('stat_roll') }}',
         method: 'GET',
         data: { 
             counts: JSON.stringify(counts) 
