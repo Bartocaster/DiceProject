@@ -24,14 +24,26 @@ class StatRollsController extends AbstractController
     {
         $countsJson = $request->query->get('counts');
         $dNumDice = json_decode($countsJson, true);
+  
+        $dice = $this->subtract1D6($dNumDice);
+
+
+        return new JsonResponse([
+            'dice' => $dice,
+            // 'total' => $total,
+            'test' => $dNumDice,
+
+        ]);
+    }
+    
+    public function subtract1D6($dNumDice)
+    {
         $diceResults = [];
         $total = 0; 
         $individualRolls = [];
     
         foreach ($dNumDice as $diceType => $count) {
-            // Skip dice types with a count of 0
-    
-            $diceTotal = 0;
+   
             $diceRolls = [];
             // Roll the dice $count times and add the results to $diceResults
             for ($i = 0; $i < $count; $i++) {
@@ -39,7 +51,6 @@ class StatRollsController extends AbstractController
     
                 $result = rand(1, 6);
                 $diceResults[] = $result;
-                $diceTotal += $result;
                 $diceRolls[] = $result;
             }
             // If rolling 4D6, subtract the lowest roll and add the total of the remaining three
@@ -54,13 +65,9 @@ class StatRollsController extends AbstractController
             }
             $diceResults = array_merge($diceResults, $diceRolls);
         }
-    
-        return new JsonResponse([
-            'dice' => implode(' + ', $individualRolls),
-            'total' => $total,
-        ]);
+        $dice = implode(' + ', $individualRolls);
+        return $dice;
     }
-       
 
     #[Route('/statRolls', name: 'stat_rolls')]
     public function index(): Response
