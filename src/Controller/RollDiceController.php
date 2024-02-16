@@ -12,7 +12,7 @@ use Symfony\Component\VarDumper\VarDumper;
 class RollDiceController extends AbstractController
 {   
 
-    #[Route('/Dice', name: 'roll_dice')]
+    #[Route('/dice', name: 'roll_dice')]
     public function rollDice(Request $request): Response
     {
         // $amountOfDice = $request->query->getInt('amountOfDice', 1);
@@ -20,7 +20,7 @@ class RollDiceController extends AbstractController
         $dNumDice = json_decode($countsJson, true);
         $diceResults = [];
         $total = 0; 
-
+        
         $ranNumDiceGen = $this->randNumDiceGenerator($dNumDice);
         $diceResults = $ranNumDiceGen['diceResults'];
         $total = $ranNumDiceGen['total']; 
@@ -55,7 +55,9 @@ class RollDiceController extends AbstractController
         $diceResults = [];
         $total = 0;
         $individualRolls = [];
-    
+        // if ($dNumDice === null){
+        //     $dNumDice = ['D6' => 6];
+        // }
         // Iterate over each dice type in the $dNumDice array
         foreach ($dNumDice as $diceType => $count) {
             // Skip dice types with a count of 0
