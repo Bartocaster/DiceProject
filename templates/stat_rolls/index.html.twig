@@ -13,8 +13,10 @@
     <div class="example-wrapper">
         <br>----------------------------------------------------------<br>
         <button class="btn btn-primary btn-sm" onclick="incrementNumDice(3)">Roll 3D6</button>
+        <a>For Die Hards </a>
         <br>----------------------------------------------------------<br>
         <button class="btn btn-primary btn-sm" onclick="incrementNumDice(4)">Roll 4D6</button>
+        <a>For Stability </a>
         <br>----------------------------------------------------------<br>
 </div>
 
@@ -37,6 +39,8 @@ function incrementNumDice(numDice) {
             document.getElementById('ReRollDice').innerText = 'You rolled = ' + response.dice;
         },
         error: function(xhr, status, error) {
+            console.log(response); 
+            console.log(status); 
             console.error(error);
         }
     });

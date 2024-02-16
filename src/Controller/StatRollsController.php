@@ -22,42 +22,45 @@ class StatRollsController extends AbstractController
     #[Route('/stat', name: 'stat_roll')]
     public function statRoll(Request $request): Response
     {
-        // $amountOfDice = $request->query->getInt('amountOfDice', 1);
         $countsJson = $request->query->get('counts');
         $dNumDice = json_decode($countsJson, true);
         $diceResults = [];
         $total = 0; 
-        
-        $ranNumDiceGen = $this->rollDiceController->randNumDiceGenerator($dNumDice);
-        
-        $diceResults = $ranNumDiceGen['diceResults'];
-        $total = $ranNumDiceGen['total']; 
-        $individualRolls = $ranNumDiceGen['individualRolls'];
-
-        $noDice = "No dice. You gotte choose them.";
-        $dice = implode(' + ', $diceResults); // Combine the dice results into a string
-        $combine = $individualRolls . ' total = ' . $total;
-        if (count($diceResults) === 1 ) {
-            return new JsonResponse([
-                'dice' => $individualRolls,
-                'choseDice' => $dNumDice,
-                // 'typeOfDice' => $individualRolls,
-            ]);
-        } elseif (count($diceResults) === 0 ) {
-            return new JsonResponse([
-                'dice' => $noDice,
-            ]);
-        } else {   
-            return new JsonResponse([
-                'dice' => $combine,
-                // 'results' => $diceResults,
-                // 'choseDice' => $dNumDice,
-                'typeOfDice' => $individualRolls,
-            ]);
+        $individualRolls = [];
+    
+        foreach ($dNumDice as $diceType => $count) {
+            // Skip dice types with a count of 0
+    
+            $diceTotal = 0;
+            $diceRolls = [];
+            // Roll the dice $count times and add the results to $diceResults
+            for ($i = 0; $i < $count; $i++) {
+                // Generate a random number based on the dice type
+    
+                $result = rand(1, 6);
+                $diceResults[] = $result;
+                $diceTotal += $result;
+                $diceRolls[] = $result;
+            }
+            // If rolling 4D6, subtract the lowest roll and add the total of the remaining three
+            if ($count === 4 && $diceType === 'D6') {
+                sort($diceRolls); // Sort the rolls in ascending order
+                $lowestRoll = $diceRolls[0]; // Get the lowest roll
+                $total += array_sum(array_slice($diceRolls, 1)); // Sum the remaining three rolls
+                $individualRolls[] = "4D6 (" . implode(' + ', $diceRolls) . " = " . ($total - $lowestRoll) . " ( $lowestRoll Subtracted ) ";
+            } else {
+                $total += array_sum($diceRolls);
+                $individualRolls[] = "$count$diceType (" . implode(' + ', $diceRolls) . " = " . array_sum($diceRolls) . ")";
+            }
+            $diceResults = array_merge($diceResults, $diceRolls);
         }
-
+    
+        return new JsonResponse([
+            'dice' => implode(' + ', $individualRolls),
+            'total' => $total,
+        ]);
     }
-   
+       
 
     #[Route('/statRolls', name: 'stat_rolls')]
     public function index(): Response
