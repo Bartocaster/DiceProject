@@ -12,12 +12,12 @@ use App\Controller\RollDiceController;
 
 class StatRollsController extends AbstractController
 {
-    private $rollDiceController;
+    // private $rollDiceController;
 
-    public function __construct(RollDiceController $rollDiceController)
-    {
-        $this->rollDiceController = $rollDiceController;
-    }
+    // public function __construct(RollDiceController $rollDiceController)
+    // {
+    //     $this->rollDiceController = $rollDiceController;
+    // }
 
     #[Route('/stat', name: 'stat_roll')]
     public function statRoll(Request $request): Response
@@ -25,14 +25,17 @@ class StatRollsController extends AbstractController
         $countsJson = $request->query->get('counts');
         $dNumDice = json_decode($countsJson, true);
   
-        $dice = $this->subtract1D6($dNumDice);
+        $rolls = $this->subtract1D6($dNumDice);
+        $dice = $rolls['dice'];
+        $total = $rolls['total'];
+        $modifier = $this->AbilityModifiersChart($total); // Get the modifier based on the total
 
 
         return new JsonResponse([
             'dice' => $dice,
-            // 'total' => $total,
-            'test' => $dNumDice,
-
+            'total' => $total,
+            'modifier' => $modifier,
+            'test' => $modifier,
         ]);
     }
     
@@ -57,8 +60,9 @@ class StatRollsController extends AbstractController
             if ($count === 4 && $diceType === 'D6') {
                 sort($diceRolls); // Sort the rolls in ascending order
                 $lowestRoll = $diceRolls[0]; // Get the lowest roll
-                $total += array_sum(array_slice($diceRolls, 1)); // Sum the remaining three rolls
+                $total += array_sum(array_slice($diceRolls, 1)); // Sum the remaining three rollsxs
                 $individualRolls[] = "4D6 (" . implode(' + ', $diceRolls) . " = " . ($total - $lowestRoll) . " ( $lowestRoll Subtracted ) ";
+                $total = $total - $lowestRoll;
             } else {
                 $total += array_sum($diceRolls);
                 $individualRolls[] = "$count$diceType (" . implode(' + ', $diceRolls) . " = " . array_sum($diceRolls) . ")";
@@ -66,7 +70,40 @@ class StatRollsController extends AbstractController
             $diceResults = array_merge($diceResults, $diceRolls);
         }
         $dice = implode(' + ', $individualRolls);
-        return $dice;
+        return [ 'dice' => $dice, 'total' => $total];
+    }
+
+    public function AbilityModifiersChart($total)
+    {
+        $modifiers = [ 
+            3 => -4,
+            4 => -3,
+            5 => -3,
+            6 => -2,
+            7 => -2,
+            8 => -1,
+            9 => -1,
+            10 => 0,
+            11 => 0,
+            12 => 1,
+            13 => 1,
+            14 => 2,
+            15 => 2,
+            16 => 3,
+            17 => 3,
+            18 => 4,
+            19 => 5,
+            20 => 5,
+        ];
+    
+        // Determine the modifier and add "+" or "-"
+        $modifier = $modifiers[$total] ?? null;
+        if ($modifier !== null) {
+            $modifier = $modifier >= 0 ? '+' . $modifier : $modifier;
+        }
+    
+        // Return the modifier
+        return $modifier ?? 'Modifier not found';
     }
 
     #[Route('/statRolls', name: 'stat_rolls')]

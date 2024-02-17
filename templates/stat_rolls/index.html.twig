@@ -24,11 +24,12 @@
 </div>
 <div class="container">
     <div class="row">
-        <div class="column left">Strenght</div>
-        <div class="column middle">Score</div>
-        <div class="column right">Modifier</div>
+        <div class="column left">STR </div>
+        <div id="total" class="column middle">Score (here)</div>
+        <div id="modifier"  class="column right">Modifier</div>
     </div>
 </div>
+
 
 <script>
 function incrementNumDice(numDice) {
@@ -44,6 +45,8 @@ function incrementNumDice(numDice) {
         success: function(response) {
             console.log(response); 
             document.getElementById('ReRollDice').innerText = 'You rolled = ' + response.dice;
+            document.getElementById('total').innerText = response.total;
+            document.getElementById('modifier').innerText = response.modifier;
         },
         error: function(xhr, status, error) {
             console.log(response); 
