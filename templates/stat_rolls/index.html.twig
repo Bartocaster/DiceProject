@@ -20,15 +20,46 @@
         <a>For Stability </a>
         <br>----------------------------------------------------------<br>
 </div>
-    <h2 id="ReRollDice">Roll your dice!</h2>
+    {# <h2 id="ReRollDice">Roll your dice!</h2> #}
 </div>
 <div class="container">
+    <div class="row-text">
+        <div class="row">
+            <div class="column left">STR</div>
+            <div class="column middle" id="totalSTR">Score</div>
+            <div class="column right" id="modifierSTR">Modifier</div>
+        </div>
+        <div class="dice-text">
+            <h3 id="ReRollDice">Roll your dice!</h3>
+        </div>
+    </div>
     <div class="row">
-        <div class="column left">STR </div>
-        <div id="total" class="column middle">Score (here)</div>
-        <div id="modifier"  class="column right">Modifier</div>
+        <div class="column left">DEX</div>
+        <div class="column middle" id="totalDEX">Score</div>
+        <div class="column right" id="modifierDEX">Modifier</div>
+    </div>
+    <div class="row">
+        <div class="column left">CON</div>
+        <div class="column middle" id="totalCON">Score</div>
+        <div class="column right" id="modifierCON">Modifier</div>
+    </div>
+    <div class="row">
+        <div class="column left">INT</div>
+        <div class="column middle" id="totalINT">Score</div>
+        <div class="column right" id="modifierINT">Modifier</div>
+    </div>
+    <div class="row">
+        <div class="column left">WIS</div>
+        <div class="column middle" id="totalWIS">Score</div>
+        <div class="column right" id="modifierWIS">Modifier</div>
+    </div>
+    <div class="row">
+        <div class="column left">CHA</div>
+        <div class="column middle" id="totalCHA">Score </div>
+        <div class="column right" id="modifierCHA">Modifier</div>
     </div>
 </div>
+
 
 
 <script>
@@ -45,8 +76,8 @@ function incrementNumDice(numDice) {
         success: function(response) {
             console.log(response); 
             document.getElementById('ReRollDice').innerText = 'You rolled = ' + response.dice;
-            document.getElementById('total').innerText = response.total;
-            document.getElementById('modifier').innerText = response.modifier;
+            document.getElementById('totalSTR').innerText = response.total;
+            document.getElementById('modifierSTR').innerText = response.modifier;
         },
         error: function(xhr, status, error) {
             console.log(response); 
@@ -55,6 +86,7 @@ function incrementNumDice(numDice) {
         }
     });
 }
+
 
 </script>
 {% endblock %}

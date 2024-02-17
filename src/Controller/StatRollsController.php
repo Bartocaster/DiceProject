@@ -12,12 +12,7 @@ use App\Controller\RollDiceController;
 
 class StatRollsController extends AbstractController
 {
-    // private $rollDiceController;
-
-    // public function __construct(RollDiceController $rollDiceController)
-    // {
-    //     $this->rollDiceController = $rollDiceController;
-    // }
+    
 
     #[Route('/stat', name: 'stat_roll')]
     public function statRoll(Request $request): Response
@@ -28,7 +23,7 @@ class StatRollsController extends AbstractController
         $rolls = $this->subtract1D6($dNumDice);
         $dice = $rolls['dice'];
         $total = $rolls['total'];
-        $modifier = $this->AbilityModifiersChart($total); // Get the modifier based on the total
+        $modifier = $this->AbilityModifiersChart($total); 
 
 
         return new JsonResponse([
@@ -105,6 +100,7 @@ class StatRollsController extends AbstractController
         // Return the modifier
         return $modifier ?? 'Modifier not found';
     }
+    
 
     #[Route('/statRolls', name: 'stat_rolls')]
     public function index(): Response
