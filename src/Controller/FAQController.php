@@ -11,8 +11,10 @@ class FAQController extends AbstractController
     #[Route('/f/a/q', name: 'app_f_a_q')]
     public function index(): Response
     {
+        $php = phpinfo();
         return $this->render('faq/index.html.twig', [
             'controller_name' => 'FAQController',
+            
         ]);
     }
 }

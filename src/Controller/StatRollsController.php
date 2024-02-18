@@ -24,7 +24,7 @@ class StatRollsController extends AbstractController
         $dice = $rolls['dice'];
         $total = $rolls['total'];
         $modifier = $this->AbilityModifiersChart($total); 
-
+       
 
         return new JsonResponse([
             'dice' => $dice,
@@ -107,6 +107,7 @@ class StatRollsController extends AbstractController
     {
         return $this->render('stat_rolls/index.html.twig', [
             'controller_name' => 'Charachter Stat Rolls',
+            
         ]);
     }
 }

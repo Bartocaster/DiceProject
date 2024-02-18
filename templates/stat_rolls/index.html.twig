@@ -13,10 +13,10 @@
     <h1>{{ controller_name }}</h1>
     <div class="example-wrapper">
         <br>----------------------------------------------------------<br>
-        <button class="btn btn-primary btn-sm" onclick="incrementNumDice(3)">Roll 3D6</button>
+        <button class="btn btn-primary btn-sm" onclick="rollAllDice(3)">Roll 3D6</button>
         <a>For Die Hards </a>
         <br>----------------------------------------------------------<br>
-        <button class="btn btn-primary btn-sm" onclick="incrementNumDice(4)">Roll 4D6</button>
+        <button class="btn btn-primary btn-sm" onclick="rollAllDice(4)">Roll 4D6</button>
         <a>For Stability </a>
         <br>----------------------------------------------------------<br>
 </div>
@@ -26,44 +26,82 @@
     <div class="row-text">
         <div class="row">
             <div class="column left">STR</div>
-            <div class="column middle" id="totalSTR">Score</div>
-            <div class="column right" id="modifierSTR">Modifier</div>
+            <div class="column middle" id="total_STR">Score</div>
+            <div class="column right" id="modifier_STR">Modifier</div>
         </div>
         <div class="dice-text">
-            <h3 id="ReRollDice">Roll your dice!</h3>
+            <button class="btn btn-primary btn-sm" onclick="incrementNumDice('STR', 3)">Roll 3D6</button>
+            <button class="btn btn-primary btn-sm" onclick="incrementNumDice('STR', 4)">Roll 4D6</button>
+            <h3 id="ReRollDice_STR">Roll your dice!</h3>
         </div>
     </div>
-    <div class="row">
-        <div class="column left">DEX</div>
-        <div class="column middle" id="totalDEX">Score</div>
-        <div class="column right" id="modifierDEX">Modifier</div>
+    <div class="row-text">
+        <div class="row">
+            <div class="column left">DEX</div>
+            <div class="column middle" id="total_DEX">Score</div>
+            <div class="column right" id="modifier_DEX">Modifier</div>
+        </div>
+        <div class="dice-text">
+            <button class="btn btn-primary btn-sm" onclick="incrementNumDice('DEX', 3)">Roll 3D6</button>
+            <button class="btn btn-primary btn-sm" onclick="incrementNumDice('DEX', 4)">Roll 4D6</button>
+            <h3 id="ReRollDice_DEX">Roll your dice!</h3>
+        </div>
     </div>
-    <div class="row">
-        <div class="column left">CON</div>
-        <div class="column middle" id="totalCON">Score</div>
-        <div class="column right" id="modifierCON">Modifier</div>
+     <div class="row-text">
+        <div class="row">
+            <div class="column left">CON</div>
+            <div class="column middle" id="total_CON">Score</div>
+            <div class="column right" id="modifier_CON">Modifier</div>
+        </div>
+        <div class="dice-text">
+            <button class="btn btn-primary btn-sm" onclick="incrementNumDice('CON', 3)">Roll 3D6</button>
+            <button class="btn btn-primary btn-sm" onclick="incrementNumDice('CON', 4)">Roll 4D6</button>
+            <h3 id="ReRollDice_CON">Roll your dice!</h3>
+        </div>
     </div>
-    <div class="row">
-        <div class="column left">INT</div>
-        <div class="column middle" id="totalINT">Score</div>
-        <div class="column right" id="modifierINT">Modifier</div>
+        <div class="row-text">
+        <div class="row">
+            <div class="column left">INT</div>
+            <div class="column middle" id="total_INT">Score</div>
+            <div class="column right" id="modifier_INT">Modifier</div>
+        </div>
+        <div class="dice-text">
+            <button class="btn btn-primary btn-sm" onclick="incrementNumDice('INT', 3)">Roll 3D6</button>
+            <button class="btn btn-primary btn-sm" onclick="incrementNumDice('INT', 4)">Roll 4D6</button>
+            <h3 id="ReRollDice_INT">Roll your dice!</h3>
+        </div>
     </div>
-    <div class="row">
-        <div class="column left">WIS</div>
-        <div class="column middle" id="totalWIS">Score</div>
-        <div class="column right" id="modifierWIS">Modifier</div>
+        <div class="row-text">
+        <div class="row">
+            <div class="column left">WIS</div>
+            <div class="column middle" id="total_WIS">Score</div>
+            <div class="column right" id="modifier_WIS">Modifier</div>
+        </div>
+        <div class="dice-text">
+            <button class="btn btn-primary btn-sm" onclick="incrementNumDice('WIS', 3)">Roll 3D6</button>
+            <button class="btn btn-primary btn-sm" onclick="incrementNumDice('WIS', 4)">Roll 4D6</button>
+            <h3 id="ReRollDice_WIS">Roll your dice!</h3>
+        </div>
     </div>
-    <div class="row">
-        <div class="column left">CHA</div>
-        <div class="column middle" id="totalCHA">Score </div>
-        <div class="column right" id="modifierCHA">Modifier</div>
+        <div class="row-text">
+        <div class="row">
+            <div class="column left">CHA</div>
+            <div class="column middle" id="total_CHA">Score</div>
+            <div class="column right" id="modifier_CHA">Modifier</div>
+        </div>
+        <div class="dice-text">
+            <button class="btn btn-primary btn-sm" onclick="incrementNumDice('CHA', 3)">Roll 3D6</button>
+            <button class="btn btn-primary btn-sm" onclick="incrementNumDice('CHA', 4)">Roll 4D6</button>
+            <h3 id="ReRollDice_CHA">Roll your dice!</h3>
+        </div>
     </div>
 </div>
 
 
 
 <script>
-function incrementNumDice(numDice) {
+
+function incrementNumDice(attribute, numDice) {
     var counts = {};
     counts['D6'] = numDice;
 
@@ -74,10 +112,11 @@ function incrementNumDice(numDice) {
             counts: JSON.stringify(counts) 
         },
         success: function(response) {
+             console.log(attribute); 
             console.log(response); 
-            document.getElementById('ReRollDice').innerText = 'You rolled = ' + response.dice;
-            document.getElementById('totalSTR').innerText = response.total;
-            document.getElementById('modifierSTR').innerText = response.modifier;
+                document.getElementById('ReRollDice_' + attribute).innerText = 'You rolled = ' + response.dice;
+                document.getElementById('total_' + attribute).innerText = response.total;
+                document.getElementById('modifier_' + attribute).innerText = response.modifier;
         },
         error: function(xhr, status, error) {
             console.log(response); 
@@ -85,6 +124,15 @@ function incrementNumDice(numDice) {
             console.error(error);
         }
     });
+}
+
+function rollAllDice(numDice) {
+    incrementNumDice('STR', numDice);
+    incrementNumDice('DEX', numDice);
+    incrementNumDice('CON', numDice);
+    incrementNumDice('INT', numDice);
+    incrementNumDice('WIS', numDice);
+    incrementNumDice('CHA', numDice);
 }
 
 
