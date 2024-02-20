@@ -14,7 +14,7 @@ class TableRollController extends AbstractController
     public function index(): Response
     {
         return $this->render('table/index.html.twig', [
-            'controller_name' => 'TableRollController',
+            'controller_name' => 'Table Roll',
         ]);
     }
 }

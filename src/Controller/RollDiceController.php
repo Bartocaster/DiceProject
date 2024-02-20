@@ -55,9 +55,9 @@ class RollDiceController extends AbstractController
         $diceResults = [];
         $total = 0;
         $individualRolls = [];
-        // if ($dNumDice === null){
-        //     $dNumDice = ['D6' => 6];
-        // }
+        if ($dNumDice === null){
+            $dNumDice = ['D6' => 6];
+        }
         // Iterate over each dice type in the $dNumDice array
         foreach ($dNumDice as $diceType => $count) {
             // Skip dice types with a count of 0

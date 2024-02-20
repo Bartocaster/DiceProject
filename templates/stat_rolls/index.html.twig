@@ -19,8 +19,19 @@
         <button class="btn btn-primary btn-sm" onclick="rollAllDice(4)">Roll 4D6</button>
         <a>For Stability </a>
         <br>----------------------------------------------------------<br>
-</div>
-    {# <h2 id="ReRollDice">Roll your dice!</h2> #}
+        <select id="raceSelect">
+            <option value="human">Human</option>
+            <option value="halfling">Halfling</option>
+            <option value="dwarf">Dwarf</option>
+            <option value="gnome">Gnome</option>
+            <option value="tiefling">Tiefling</option>
+            <option value="half-elf">Half-Elf</option>
+            <option value="elf">Elf</option>
+            <option value="half-orc">Half-Orc</option>
+            <option value="dragonborn">Dragonborn</option>
+        </select>
+
+    </div>
 </div>
 <div class="container">
     <div class="row-text">
@@ -100,6 +111,11 @@
 
 
 <script>
+document.getElementById('raceSelect').addEventListener('change', function() {
+  var selectedRace = this.value;
+  console.log('Selected race:', selectedRace);
+  // You can perform any further actions with the selected race here
+});
 
 function incrementNumDice(attribute, numDice) {
     var counts = {};
