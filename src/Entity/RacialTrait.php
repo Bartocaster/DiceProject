@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\RacialTraitRepository")
+ *  @ORM\Table(name="racial_traits") // Specify the custom table name here
  */
 class RacialTrait
 {
@@ -20,6 +21,12 @@ class RacialTrait
 
     #[ORM\Column(length: 255)]
     private ?string $ExtraLanguage = null;
+
+    #[ORM\Column(length: 70)]
+    private ?string $AbilityBonus = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $RacialAbility = null;
 
     // Define properties and mapping annotations
 
@@ -67,6 +74,30 @@ class RacialTrait
     public function setExtraLanguage(string $ExtraLanguage): static
     {
         $this->ExtraLanguage = $ExtraLanguage;
+
+        return $this;
+    }
+
+    public function getAbilityBonus(): ?string
+    {
+        return $this->AbilityBonus;
+    }
+
+    public function setAbilityBonus(string $AbilityBonus): static
+    {
+        $this->AbilityBonus = $AbilityBonus;
+
+        return $this;
+    }
+
+    public function getRacialAbility(): ?string
+    {
+        return $this->RacialAbility;
+    }
+
+    public function setRacialAbility(?string $RacialAbility): static
+    {
+        $this->RacialAbility = $RacialAbility;
 
         return $this;
     }

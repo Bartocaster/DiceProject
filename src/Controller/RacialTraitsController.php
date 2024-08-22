@@ -15,10 +15,10 @@ class RacialTraitsController extends AbstractController
     public function index(): Response
     {
         // Retrieve all racial traits from the database
-        $racialTraits = $this->getDoctrine()->getRepository(RacialTrait::class)->findAll();
+        // $racialTraits = $this->getDoctrine()->getRepository(RacialTrait::class)->findAll();
 
         return $this->render('racial_traits/index.html.twig', [
-            'racialTraits' => $racialTraits,
+            // 'racialTraits' => $racialTraits,
         ]);
     }
 

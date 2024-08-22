@@ -19,7 +19,7 @@ class StatRollsController extends AbstractController
     {
         $countsJson = $request->query->get('counts');
         $dNumDice = json_decode($countsJson, true);
-  
+     
         $rolls = $this->subtract1D6($dNumDice);
         $dice = $rolls['dice'];
         $total = $rolls['total'];
@@ -90,7 +90,10 @@ class StatRollsController extends AbstractController
             19 => 5,
             20 => 5,
         ];
-    
+            // $Attribute = 10;
+            // $floor = floor($Attribute - 10)
+            // $diveded = $floor / 2;
+        //  example $modifier = floor($Attribute - 10) / 2
         // Determine the modifier and add "+" or "-"
         $modifier = $modifiers[$total] ?? null;
         if ($modifier !== null) {
