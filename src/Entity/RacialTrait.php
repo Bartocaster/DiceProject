@@ -33,4 +33,81 @@ class RacialTrait
     private ?Race $race = null;
 
     // Getters and Setters...
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getSize(): ?string
+    {
+        return $this->size;
+    }
+
+    public function setSize(string $size): self
+    {
+        $this->size = $size;
+
+        return $this;
+    }
+
+    public function getSpeed(): ?string
+    {
+        return $this->speed;
+    }
+
+    public function setSpeed(string $speed): self
+    {
+        $this->speed = $speed;
+
+        return $this;
+    }
+
+    public function getExtraLanguage(): ?string
+    {
+        return $this->extraLanguage;
+    }
+
+    public function setExtraLanguage(string $extraLanguage): self
+    {
+        $this->extraLanguage = $extraLanguage;
+
+        return $this;
+    }
+
+    public function getAbilityBonus(): ?string
+    {
+        return $this->abilityBonus;
+    }
+
+    public function setAbilityBonus(string $abilityBonus): self
+    {
+        $this->abilityBonus = $abilityBonus;
+
+        return $this;
+    }
+
+    public function getRacialAbility(): ?string
+    {
+        return $this->racialAbility;
+    }
+
+    public function setRacialAbility(?string $racialAbility): self
+    {
+        $this->racialAbility = $racialAbility;
+
+        return $this;
+    }
+
+    public function getRace(): ?Race
+    {
+        return $this->race;
+    }
+
+    public function setRace(Race $race): self
+    {
+        $this->race = $race;
+
+        return $this;
+    }
 }
