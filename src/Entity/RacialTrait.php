@@ -4,100 +4,109 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\RacialTraitRepository")
- *  @ORM\Table(name="racial_traits") // Specify the custom table name here
- */
+#[ORM\Entity]
+#[ORM\Table(name: 'racial_traits')]
 class RacialTrait
 {
-    #[ORM\Column(length: 50)]
-    private ?string $Race = null;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
+    private ?int $id = null;
 
-    #[ORM\Column(length: 50)]
-    private ?string $Size = null;
+    #[ORM\Column(type: 'string', length: 50)]
+    private ?string $size = null;
 
-    #[ORM\Column(length: 50)]
-    private ?string $Speed = null;
+    #[ORM\Column(type: 'string', length: 50)]
+    private ?string $speed = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $ExtraLanguage = null;
+    #[ORM\Column(type: 'string', length: 255)]
+    private ?string $extraLanguage = null;
 
-    #[ORM\Column(length: 70)]
-    private ?string $AbilityBonus = null;
+    #[ORM\Column(type: 'string', length: 70)]
+    private ?string $abilityBonus = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $RacialAbility = null;
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $racialAbility = null;
 
-    // Define properties and mapping annotations
+    #[ORM\ManyToOne(targetEntity: Race::class, inversedBy: 'racialTraits')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Race $race = null;
 
-    public function getRace(): ?string
+    // Getters and Setters...
+
+    public function getId(): ?int
     {
-        return $this->Race;
-    }
-
-    public function setRace(string $Race): static
-    {
-        $this->Race = $Race;
-
-        return $this;
+        return $this->id;
     }
 
     public function getSize(): ?string
     {
-        return $this->Size;
+        return $this->size;
     }
 
-    public function setSize(string $Size): static
+    public function setSize(string $size): self
     {
-        $this->Size = $Size;
+        $this->size = $size;
 
         return $this;
     }
 
     public function getSpeed(): ?string
     {
-        return $this->Speed;
+        return $this->speed;
     }
 
-    public function setSpeed(string $Speed): static
+    public function setSpeed(string $speed): self
     {
-        $this->Speed = $Speed;
+        $this->speed = $speed;
 
         return $this;
     }
 
     public function getExtraLanguage(): ?string
     {
-        return $this->ExtraLanguage;
+        return $this->extraLanguage;
     }
 
-    public function setExtraLanguage(string $ExtraLanguage): static
+    public function setExtraLanguage(string $extraLanguage): self
     {
-        $this->ExtraLanguage = $ExtraLanguage;
+        $this->extraLanguage = $extraLanguage;
 
         return $this;
     }
 
     public function getAbilityBonus(): ?string
     {
-        return $this->AbilityBonus;
+        return $this->abilityBonus;
     }
 
-    public function setAbilityBonus(string $AbilityBonus): static
+    public function setAbilityBonus(string $abilityBonus): self
     {
-        $this->AbilityBonus = $AbilityBonus;
+        $this->abilityBonus = $abilityBonus;
 
         return $this;
     }
 
     public function getRacialAbility(): ?string
     {
-        return $this->RacialAbility;
+        return $this->racialAbility;
     }
 
-    public function setRacialAbility(?string $RacialAbility): static
+    public function setRacialAbility(?string $racialAbility): self
     {
-        $this->RacialAbility = $RacialAbility;
+        $this->racialAbility = $racialAbility;
+
+        return $this;
+    }
+
+    public function getRace(): ?Race
+    {
+        return $this->race;
+    }
+
+    public function setRace(Race $race): self
+    {
+        $this->race = $race;
 
         return $this;
     }

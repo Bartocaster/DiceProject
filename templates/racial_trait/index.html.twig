@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}RacialTrait index{% endblock %}
+
+{% block body %}
+    <h1>RacialTrait index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Size</th>
+                <th>Speed</th>
+                <th>ExtraLanguage</th>
+                <th>AbilityBonus</th>
+                <th>RacialAbility</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for racial_trait in racial_traits %}
+            <tr>
+                <td>{{ racial_trait.id }}</td>
+                <td>{{ racial_trait.size }}</td>
+                <td>{{ racial_trait.speed }}</td>
+                <td>{{ racial_trait.extraLanguage }}</td>
+                <td>{{ racial_trait.abilityBonus }}</td>
+                <td>{{ racial_trait.racialAbility }}</td>
+                <td>
+                    <a href="{{ path('app_racial_trait_show', {'id': racial_trait.id}) }}">show</a>
+                    <a href="{{ path('app_racial_trait_edit', {'id': racial_trait.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_racial_trait_new') }}">Create new</a>
+{% endblock %}
