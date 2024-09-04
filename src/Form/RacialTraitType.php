@@ -6,6 +6,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType; // Correct import for EntityType
 use App\Entity\RacialTrait;
 use App\Entity\Race; // Ensure the Race entity is imported
@@ -25,7 +26,14 @@ class RacialTraitType extends AbstractType
                 'expanded' => false, // Set to true for radio buttons, false for a dropdown menu
                 'required' => true,
             ])
-            ->add('speed', TextType::class)
+            ->add('speed', IntegerType::class, [
+                'attr' => [
+                    'min' => 20,
+                    'max' => 40,
+                ],
+                'label' => 'Speed',
+                'required' => true,
+            ])
             ->add('extraLanguage', TextType::class)
             ->add('abilityBonus', TextType::class)
             ->add('racialAbility', TextType::class)
